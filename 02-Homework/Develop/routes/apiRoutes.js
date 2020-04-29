@@ -1,6 +1,3 @@
-
-
-
 var notes = require("../db/db");
 var  fs = require("fs");
 
@@ -9,6 +6,12 @@ module.exports = function(app){
     app.get("/api/notes", function(req, res) {
         res.json(notes);
         console.log("notes retrieved")
+        if(!notes === undefined || !notes.length === 0){
+            
+        for(let i = 0 ; i < notes.length ; i ++){
+            notes[i].id = i 
+        }
+    }
       });
 
 
@@ -42,6 +45,12 @@ module.exports = function(app){
       app.delete("/api/notes/:id", function(req, res){
         let nodeId = req.params.id 
         notes.splice(noteId, 1)
+        let updatedNts = JSON.stringify(notes);
+        fs.writeFile("db/db.json", updatedNts, function(err){
+            if(err) throw err;
+            console.log("note deleted")
+        });
+
       });
 
 };
