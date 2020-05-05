@@ -1,9 +1,10 @@
 var notes = require("../db/db");
 var  fs = require("fs");
+const router = require("express").Router();
 
-module.exports = function(app){
 
-    app.get("/api/notes", function(req, res) {
+
+    router.get("/api/notes", function(req, res) {
         res.json(notes);
         console.log("notes retrieved")
         if(!notes === undefined || !notes.length === 0){
@@ -15,7 +16,7 @@ module.exports = function(app){
       });
 
 
-      app.post("/api/notes", function(req, res) {
+      router.post("/api/notes", function(req, res) {
         
        if (notes===""){
            req.body.id = 0;
@@ -42,7 +43,7 @@ module.exports = function(app){
 
       });
 
-      app.delete("/api/notes/:id", function(req, res){
+      router.delete("/api/notes/:id", function(req, res){
         let nodeId = req.params.id 
         notes.splice(noteId, 1)
         let updatedNts = JSON.stringify(notes);
@@ -52,5 +53,4 @@ module.exports = function(app){
         });
 
       });
-
-};
+ module.exports = router;
